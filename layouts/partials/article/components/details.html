@@ -28,6 +28,25 @@
     {{ $showFooter := or $showDate $showReadingTime }}
     {{ if $showFooter }}
     <footer class="article-time">
+
+        {{ if .Params.prepTime }}
+        <div title="Preperation time">
+            {{ partial "helper/icon" "prep" }}
+            <time class="article-time--prep">
+                {{  .Params.prepTime }}
+            </time>
+        </div>
+        {{ end}}
+
+        {{ if .Params.cookTime }}
+        <div title="Cooking time">
+            {{ partial "helper/icon" "cooking" }}
+            <time class="article-time--cooking">
+                {{  .Params.cookTime }}
+            </time>
+        </div>
+        {{ end}}
+
         {{ if $showDate }}
             <div>
                 {{ partial "helper/icon" "date" }}
@@ -45,6 +64,7 @@
                 </time>
             </div>
         {{ end }}
+
     </footer>
     {{ end }}
 
