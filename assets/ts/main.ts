@@ -10,6 +10,7 @@ import { getColor } from 'ts/color';
 import menu from 'ts/menu';
 import createElement from 'ts/createElement';
 import StackColorScheme from 'ts/colorScheme';
+import StackWakeLock from 'ts/wakeLock';
 import { setupScrollspy } from 'ts/scrollspy';
 import { setupSmoothAnchors } from "ts/smoothAnchors";
 
@@ -92,6 +93,7 @@ let Stack = {
         });
 
         new StackColorScheme(document.getElementById('dark-mode-toggle'));
+        new StackWakeLock(document.getElementById('wake-lock-toggle'));
     }
 }
 
