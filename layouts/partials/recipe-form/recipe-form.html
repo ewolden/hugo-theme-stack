@@ -92,7 +92,7 @@
   date = "${data.date}"
   description = "${data.description}"
   tags = [${data.tags.map(tag => `"${tag}"`).join(', ')}]
-  categories = [${data.categories.map(category => `"${category}"”).join(', ')}]
+  categories = [${data.categories.map(category => `"${category}"`).join(', ')}]
   image = "${data.image}"
   prepTime = "${data.prepTime}"
   cookTime = "${data.cookTime}"
