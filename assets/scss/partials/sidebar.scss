@@ -179,6 +179,24 @@
     }
 }
 
+#wake-lock-toggle {
+    color: var(--body-text-color);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: var(--menu-icon-separation);
+    transition: color 0.3s ease;
+
+    &.active {
+        color: var(--accent-color);
+        font-weight: 700;
+    }
+
+    &:hover {
+        color: var(--accent-color);
+    }
+}
+
 #i18n-switch {
     color: var(--body-text-color);
     display: inline-flex;

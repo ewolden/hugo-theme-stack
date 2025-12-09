@@ -4,6 +4,9 @@ toggleMenu:
 darkMode:
     other: Dark Mode
 
+wakeLock:
+    other: Keep Screen On
+
 list:
     page:
         one: "{{ .Count }} page"

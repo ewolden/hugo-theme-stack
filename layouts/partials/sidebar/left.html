@@ -76,6 +76,11 @@
         {{ end }}
 
         <div class="menu-bottom-section">
+            <li id="wake-lock-toggle">
+                {{ partial "helper/icon" "eye" }}
+                <span>{{ T "wakeLock" }}</span>
+            </li>
+
             {{- $currentLanguageCode := .Language.Lang -}}
             {{ with .Site.Home.AllTranslations }}
                 <li id="i18n-switch">  
