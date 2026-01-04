@@ -13,6 +13,7 @@ import StackColorScheme from 'ts/colorScheme';
 import StackWakeLock from 'ts/wakeLock';
 import { setupScrollspy } from 'ts/scrollspy';
 import { setupSmoothAnchors } from "ts/smoothAnchors";
+import { setupGoogleKeepButtons } from "ts/googleKeep";
 
 let Stack = {
     init: () => {
@@ -94,6 +95,7 @@ let Stack = {
 
         new StackColorScheme(document.getElementById('dark-mode-toggle'));
         new StackWakeLock(document.getElementById('wake-lock-toggle'));
+        setupGoogleKeepButtons();
     }
 }
 
