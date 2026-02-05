@@ -88,7 +88,7 @@
             {{- end -}}
         {{- end -}}
     {{- end -}}
-    {{- if gt (len $ingredients) 0 -}}
+    {{- if and (eq .Section "post") (gt (len $ingredients) 0) -}}
         {{- $buttonLabel := "Add ingredients to Google Keep" -}}
         <footer class="article-recipe-actions">
             <button
