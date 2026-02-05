@@ -1,5 +1,21 @@
-{{- /* Google Analytics tracking code can be added here */ -}}
-{{- /* Example: Use Hugo's built-in template with .Site.GoogleAnalytics */ -}}
-{{- if .Site.GoogleAnalytics -}}
-{{ template "_internal/google_analytics.html" . }}
+{{- $gaID := "" -}}
+
+{{- with .Site.Config.Services.GoogleAnalytics.ID -}}
+    {{- $gaID = . -}}
+{{- end -}}
+
+{{- if eq $gaID "" -}}
+    {{- with .Site.Params.googleAnalytics -}}
+        {{- $gaID = . -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if $gaID -}}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaID }}"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{ $gaID }}');
+</script>
 {{- end -}}

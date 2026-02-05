@@ -78,4 +78,30 @@
             </div>
         </footer>
     {{ end }}
+
+    {{- $ingredients := slice -}}
+    {{- with .Params.ingredients -}}
+        {{- range . -}}
+            {{- $ingredient := . | plainify | trim " " -}}
+            {{- if $ingredient -}}
+                {{- $ingredients = $ingredients | append $ingredient -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+    {{- if and (eq .Section "post") (gt (len $ingredients) 0) -}}
+        {{- $buttonLabel := "Add ingredients to Google Keep" -}}
+        <footer class="article-recipe-actions">
+            <button
+                type="button"
+                class="article-recipe-action article-recipe-action--keep"
+                data-keep-ingredients='{{ $ingredients | jsonify | htmlEscape }}'
+                data-keep-title='{{ .Title | htmlEscape }}'
+                data-keep-label='{{ $buttonLabel }}'
+                data-keep-success='Ingredients copied! Opening Google Keep...'
+                data-keep-error="Couldn't copy. Opening Google Keep...">
+                {{ partial "helper/icon" "google-keep" }}
+                <span class="article-recipe-action__label">{{ $buttonLabel }}</span>
+            </button>
+        </footer>
+    {{- end }}
 </div>

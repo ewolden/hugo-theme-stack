@@ -29,6 +29,59 @@
             }
         }
 
+        .article-recipe-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+
+            .article-recipe-action {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                border-radius: var(--tag-border-radius);
+                border: 1px solid var(--card-separator-color);
+                background-color: var(--card-background);
+                color: var(--card-text-color-main);
+                padding: 10px 14px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                }
+
+                &:hover,
+                &:focus-visible {
+                    background-color: var(--card-separator-color);
+                    border-color: var(--card-separator-color);
+                }
+
+                &:active {
+                    transform: translateY(1px);
+                }
+            }
+
+            .article-recipe-action--keep {
+                background: var(--accent-color);
+                border-color: var(--accent-color);
+                color: var(--accent-color-text);
+
+                &:hover,
+                &:focus-visible {
+                    background: var(--accent-color-darker);
+                    border-color: var(--accent-color-darker);
+                }
+
+                &:active {
+                    transform: translateY(1px);
+                }
+            }
+        }
+
         .article-content {
             margin: var(--card-padding) 0;
             color: var(--card-text-color-main);
