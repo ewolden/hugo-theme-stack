@@ -82,7 +82,7 @@
     {{- $ingredients := slice -}}
     {{- with .Params.ingredients -}}
         {{- range . -}}
-            {{- $ingredient := . | plainify | trim -}}
+            {{- $ingredient := . | plainify | trim " " -}}
             {{- if $ingredient -}}
                 {{- $ingredients = $ingredients | append $ingredient -}}
             {{- end -}}
