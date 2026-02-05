@@ -1,11 +1,11 @@
 {{- $gaID := "" -}}
 
-{{- with .Site.GoogleAnalytics -}}
+{{- with .Site.Config.Services.GoogleAnalytics.ID -}}
     {{- $gaID = . -}}
 {{- end -}}
 
 {{- if eq $gaID "" -}}
-    {{- with .Site.Config.Services.GoogleAnalytics.ID -}}
+    {{- with .Site.Params.googleAnalytics -}}
         {{- $gaID = . -}}
     {{- end -}}
 {{- end -}}
