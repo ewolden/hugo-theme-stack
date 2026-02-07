@@ -94,8 +94,8 @@
             <button
                 type="button"
                 class="article-recipe-action article-recipe-action--keep"
-                data-keep-ingredients='{{ $ingredients | jsonify | htmlEscape }}'
-                data-keep-title='{{ .Title | htmlEscape }}'
+                data-keep-ingredients='{{ $ingredients | jsonify }}'
+                data-keep-title='{{ .Title }}'
                 data-keep-label='{{ $buttonLabel }}'
                 data-keep-success='Ingredients copied! Opening Google Keep...'
                 data-keep-error="Couldn't copy. Opening Google Keep...">
