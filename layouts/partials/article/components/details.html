@@ -1,7 +1,10 @@
+{{- $context := .Context | default . -}}
+{{- $showKeepButton := .ShowKeepButton | default false -}}
+
 <div class="article-details">
-    {{ if .Params.categories }}
+    {{ if $context.Params.categories }}
     <header class="article-category">
-        {{ range (.GetTerms "categories") }}
+        {{ range ($context.GetTerms "categories") }}
             <a href="{{ .RelPermalink }}" {{ with .Params.style }}style="background-color: {{ .background }}; color: {{ .color }};"{{ end }}>
                 {{ .LinkTitle }}
             </a>
@@ -11,38 +14,38 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="{{ .RelPermalink }}">
-                {{- .Title -}}
+            <a href="{{ $context.RelPermalink }}">
+                {{- $context.Title -}}
             </a>
         </h2>
     
-        {{ with .Params.description }}
+        {{ with $context.Params.description }}
         <h3 class="article-subtitle">
             {{ . }}
         </h3>
         {{ end }}
     </div>
 
-    {{ $showReadingTime := .Params.readingTime | default (.Site.Params.article.readingTime) }}
-    {{ $showDate := not .Date.IsZero }}
+    {{ $showReadingTime := $context.Params.readingTime | default ($context.Site.Params.article.readingTime) }}
+    {{ $showDate := not $context.Date.IsZero }}
     {{ $showFooter := or $showDate $showReadingTime }}
     {{ if $showFooter }}
     <footer class="article-time">
 
-        {{ if .Params.prepTime }}
+        {{ if $context.Params.prepTime }}
         <div title="Preperation time">
             {{ partial "helper/icon" "prep" }}
             <time class="article-time--prep">
-                {{  .Params.prepTime }}
+                {{  $context.Params.prepTime }}
             </time>
         </div>
         {{ end}}
 
-        {{ if .Params.cookTime }}
+        {{ if $context.Params.cookTime }}
         <div title="Cooking time">
             {{ partial "helper/icon" "cooking" }}
             <time class="article-time--cooking">
-                {{  .Params.cookTime }}
+                {{  $context.Params.cookTime }}
             </time>
         </div>
         {{ end}}
@@ -50,8 +53,8 @@
         {{ if $showDate }}
             <div>
                 {{ partial "helper/icon" "date" }}
-                <time class="article-time--published" datetime='{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}'>
-                    {{- .Date | time.Format (or .Site.Params.dateFormat.published "Jan 02, 2006") -}}
+                <time class="article-time--published" datetime='{{ $context.Date.Format "2006-01-02T15:04:05Z07:00" }}'>
+                    {{- $context.Date | time.Format (or $context.Site.Params.dateFormat.published "Jan 02, 2006") -}}
                 </time>
             </div>
         {{ end }}
@@ -60,7 +63,7 @@
             <div>
                 {{ partial "helper/icon" "clock" }}
                 <time class="article-time--reading">
-                    {{ T "article.readingTime" .ReadingTime }}
+                    {{ T "article.readingTime" $context.ReadingTime }}
                 </time>
             </div>
         {{ end }}
@@ -68,34 +71,26 @@
     </footer>
     {{ end }}
 
-    {{ if .IsTranslated }}
+    {{ if $context.IsTranslated }}
         <footer class="article-translations">
             {{ partial "helper/icon" "language" }}
             <div>
-                {{ range .Translations }}
+                {{ range $context.Translations }}
                     <a href="{{ .Permalink }}" class="link">{{ .Language.LanguageName }}</a>
                 {{ end }}
             </div>
         </footer>
     {{ end }}
 
-    {{- $ingredients := slice -}}
-    {{- with .Params.ingredients -}}
-        {{- range . -}}
-            {{- $ingredient := . | plainify | trim " " -}}
-            {{- if $ingredient -}}
-                {{- $ingredients = $ingredients | append $ingredient -}}
-            {{- end -}}
-        {{- end -}}
-    {{- end -}}
-    {{- if and (eq .Section "post") (gt (len $ingredients) 0) -}}
+    {{- $ingredients := $context.Params.ingredients | default (slice) -}}
+    {{- if and $showKeepButton (eq $context.Section "post") (gt (len $ingredients) 0) -}}
         {{- $buttonLabel := "Add ingredients to Google Keep" -}}
         <footer class="article-recipe-actions">
             <button
                 type="button"
                 class="article-recipe-action article-recipe-action--keep"
-                data-keep-ingredients='{{ $ingredients | jsonify }}'
-                data-keep-title='{{ .Title }}'
+                data-keep-ingredients='{{ $context.Params.ingredients | jsonify }}'
+                data-keep-title='{{ $context.Title }}'
                 data-keep-label='{{ $buttonLabel }}'
                 data-keep-success='Ingredients copied! Opening Google Keep...'
                 data-keep-error="Couldn't copy. Opening Google Keep...">
