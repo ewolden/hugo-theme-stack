@@ -17,6 +17,39 @@ const setButtonLabel = (button: KeepButton, label: string) => {
     }
 };
 
+const normalizeIngredient = (value: unknown): string[] => {
+    if (typeof value === 'string') {
+        const trimmed = value.trim();
+        return trimmed ? [trimmed] : [];
+    }
+
+    if (typeof value === 'number') {
+        return [String(value)];
+    }
+
+    if (Array.isArray(value)) {
+        return value.flatMap(normalizeIngredient);
+    }
+
+    if (value && typeof value === 'object') {
+        const record = value as Record<string, unknown>;
+        const preferredFields = ['quantity', 'qty', 'amount', 'unit', 'ingredient', 'item', 'name', 'text', 'description'];
+        const parts = preferredFields
+            .map(field => record[field])
+            .filter(part => typeof part === 'string' || typeof part === 'number')
+            .map(part => String(part).trim())
+            .filter(part => part.length > 0);
+
+        if (parts.length) {
+            return [parts.join(' ')];
+        }
+
+        return Object.values(record).flatMap(normalizeIngredient);
+    }
+
+    return [];
+};
+
 const parseIngredients = (button: KeepButton): string[] => {
     const ingredientsData = button.dataset.keepIngredients;
     if (!ingredientsData) {
@@ -24,14 +57,7 @@ const parseIngredients = (button: KeepButton): string[] => {
     }
 
     try {
-        const parsed = JSON.parse(ingredientsData);
-        if (!Array.isArray(parsed)) {
-            return [];
-        }
-
-        return parsed
-            .map(item => typeof item === 'string' ? item.trim() : '')
-            .filter((item): item is string => item.length > 0);
+        return normalizeIngredient(JSON.parse(ingredientsData));
     } catch (error) {
         console.error('Unable to parse ingredients for Google Keep button', error);
         return [];

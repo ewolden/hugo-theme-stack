@@ -82,22 +82,14 @@
         </footer>
     {{ end }}
 
-    {{- $ingredients := slice -}}
-    {{- with $context.Params.ingredients -}}
-        {{- range . -}}
-            {{- $ingredient := . | plainify | trim " " -}}
-            {{- if $ingredient -}}
-                {{- $ingredients = $ingredients | append $ingredient -}}
-            {{- end -}}
-        {{- end -}}
-    {{- end -}}
+    {{- $ingredients := $context.Params.ingredients | default (slice) -}}
     {{- if and $showKeepButton (eq $context.Section "post") (gt (len $ingredients) 0) -}}
         {{- $buttonLabel := "Add ingredients to Google Keep" -}}
         <footer class="article-recipe-actions">
             <button
                 type="button"
                 class="article-recipe-action article-recipe-action--keep"
-                data-keep-ingredients='{{ $ingredients | jsonify }}'
+                data-keep-ingredients='{{ $context.Params.ingredients | jsonify }}'
                 data-keep-title='{{ $context.Title }}'
                 data-keep-label='{{ $buttonLabel }}'
                 data-keep-success='Ingredients copied! Opening Google Keep...'
