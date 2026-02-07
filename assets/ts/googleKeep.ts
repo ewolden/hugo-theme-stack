@@ -25,7 +25,13 @@ const parseIngredients = (button: KeepButton): string[] => {
 
     try {
         const parsed = JSON.parse(ingredientsData);
-        return Array.isArray(parsed) ? parsed : [];
+        if (!Array.isArray(parsed)) {
+            return [];
+        }
+
+        return parsed
+            .map(item => typeof item === 'string' ? item.trim() : '')
+            .filter((item): item is string => item.length > 0);
     } catch (error) {
         console.error('Unable to parse ingredients for Google Keep button', error);
         return [];
